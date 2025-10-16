@@ -123,7 +123,8 @@ class TimeVaryingVolumetricGrid<T, V, InMemorySession<T, P>, P>
   }
 
   /// Buffer for values being stored
-  private: std::vector<V> values;
+  // private: std::vector<V> values;
+  public: std::vector<V> values;
 
   /// Index table for fast lookup
   private: TimeVaryingVolumetricGridLookupField

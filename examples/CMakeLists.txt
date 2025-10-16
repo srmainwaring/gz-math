@@ -70,3 +70,9 @@ target_link_libraries(triangle_example gz-math::gz-math)
 
 add_executable(vector2_example vector2_example.cc)
 target_link_libraries(vector2_example gz-math::gz-math)
+
+# Find the Gazebo Common library
+find_package(gz-common REQUIRED COMPONENTS io)
+
+add_executable(volumetric_grid_example volumetric_grid_example.cc)
+target_link_libraries(volumetric_grid_example gz-common::gz-common gz-common::io gz-math::gz-math)
