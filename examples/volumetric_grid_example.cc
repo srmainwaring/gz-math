@@ -29,7 +29,7 @@
 
 int main(int argc, char **argv)
 {
-    std::string dataFile{"../volumetric_grid_example.csv"};
+    std::string dataFile{"../volumetric_grid_example_static.csv"};
     std::ifstream dataStream(dataFile);
     if (!dataStream.is_open())
     {
@@ -103,9 +103,9 @@ int main(int argc, char **argv)
     std::cout << "Bounds: [" << lowerBound << "], [" << upperBound << "]" << std::endl; 
 
     // get the range of values in the field
-    int nx = 4;
-    int ny = 4;
-    int nz = 4;
+    int nx = 2;
+    int ny = 2;
+    int nz = 2;
     auto range = upperBound - lowerBound;
     auto dx = range.X() / nx;
     auto dy = range.Y() / ny;
@@ -119,15 +119,15 @@ int main(int argc, char **argv)
             for (int iz = 0; iz < nz; ++iz)
             {
                 auto z = lowerBound.Z() + iz * dz;
-                auto v = dataColumn.LookUp(session, gz::math::Vector3(x, y, z));
-                if (v.has_value())
+                auto res = dataColumn.LookUp(session, gz::math::Vector3(x, y, z));
+                if (res.has_value())
                 {
-                    vMax = std::max(vMax, v.value());
-                    vMin = std::min(vMin, v.value());
+                    vMax = std::max(vMax, res.value());
+                    vMin = std::min(vMin, res.value());
                     std::cout
                         << "[" << ix << ", " << iy << ", " << iz << "], "
                         << "[" << x << ", " << y << ", " << z << "], "
-                        << v.value() << std::endl;
+                        << res.value() << std::endl;
                 }
             }
         }
@@ -153,5 +153,7 @@ int main(int argc, char **argv)
     std::cout << "dx: " << dx << ", dy: " << dy << ", dz: " << dz << std::endl;
     std::cout << "vMin: " << vMin << ", vMax: " << vMax << std::endl;
 
+
+    dataStream.close();
     return 0;
 }
